@@ -28,8 +28,8 @@ url: 'https://soohyunii.github.io'
 github:
   username: soohyunii # change to your github username
 
-twitter:
-  username: false
+#twitter:
+  #username: 
 
 social:
   # Change to your full name.
@@ -70,10 +70,10 @@ theme_mode: dark
 # will be added to all image (site avatar & posts' images) paths starting with '/'
 #
 # e.g. 'https://cdn.com'
-img_cdn: './assets/mstile-150x150'
+img_cdn: 
 
 # the avatar on sidebar, support local or CORS resources
-avatar: 
+avatar: './assets/mstile-150x150'
 
 # The URL of the site-wide social preview image used in SEO `og:image` meta tag.
 # It can be overridden by a customized `page.image` in front matter.
