@@ -1,0 +1,86 @@
+---
+import type { CategoryIndex } from "../../lib/categories/schema";
+
+interface Props {
+  index: CategoryIndex;
+  counts: Map<string, number>;
+  rootIds?: string[];
+  activeId?: string;
+  prefix?: string;
+  label?: string;
+}
+
+const {
+  index,
+  counts,
+  rootIds = index.roots,
+  activeId,
+  prefix = "category",
+  label = "Categories",
+} = Astro.props;
+const Element = rootIds === index.roots ? "nav" : "div";
+---
+
+<Element aria-label={Element === "nav" ? label : undefined} class="category-tree">
+  <ul>
+    {
+      rootIds.map((id) => {
+        const node = index.byId.get(id);
+        if (!node) return null;
+        const childId = `${prefix}-${node.id}-children`;
+        const hasChildren = node.childIds.length > 0;
+        return (
+          <li data-category-node={node.id}>
+            <div class:list={["category-row", { active: node.id === activeId }]}>
+              {hasChildren ? (
+                <button
+                  type="button"
+                  class="category-toggle"
+                  aria-expanded="true"
+                  aria-controls={childId}
+                  aria-label={`Collapse ${node.name}`}
+                  data-category-toggle={node.id}
+                  data-category-name={node.name}
+                >
+                  <span aria-hidden="true">⌄</span>
+                </button>
+              ) : (
+                <span class="category-spacer" aria-hidden="true" />
+              )}
+              <a href={`/category/${node.path}/`} aria-current={node.id === activeId ? "page" : undefined}>
+                <span>{node.name}</span>
+                <small>{counts.get(node.id) ?? 0}</small>
+              </a>
+            </div>
+            {hasChildren && (
+              <div id={childId} data-category-children={node.id}>
+                <Astro.self
+                  index={index}
+                  counts={counts}
+                  rootIds={node.childIds}
+                  activeId={activeId}
+                  prefix={prefix}
+                  label={`${node.name} subcategories`}
+                />
+              </div>
+            )}
+          </li>
+        );
+      })
+    }
+  </ul>
+</Element>
+
+<style>
+  .category-tree ul { list-style: none; margin: 0; padding: 0; }
+  .category-tree .category-tree ul { padding-left: 1rem; }
+  .category-row { display: flex; align-items: center; min-width: 0; }
+  .category-row.active > a { color: var(--color-accent); font-weight: 650; }
+  .category-row a { display: flex; flex: 1; justify-content: space-between; gap: .75rem; padding: .36rem .2rem; text-decoration: none; min-width: 0; }
+  .category-row a span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .category-row small { color: var(--color-muted); font-size: .72rem; }
+  .category-toggle { appearance: none; border: 0; background: transparent; color: var(--color-muted); cursor: pointer; padding: .35rem .35rem .35rem 0; width: 1.3rem; }
+  .category-toggle[aria-expanded="false"] span { display: inline-block; transform: rotate(-90deg); }
+  .category-spacer { width: 1.3rem; }
+  [hidden] { display: none; }
+</style>

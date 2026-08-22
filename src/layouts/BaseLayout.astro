@@ -1,0 +1,72 @@
+---
+import { countPostsByCategory } from "../lib/categories/queries";
+import { loadCategoryIndex } from "../lib/categories/load";
+import { getPublishedPosts } from "../lib/content/posts";
+import MobileDrawer from "../components/navigation/MobileDrawer.astro";
+import Sidebar from "../components/navigation/Sidebar.astro";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+  activeCategoryId?: string;
+}
+
+const { title, description = "Soohyun's personal blog", activeCategoryId } = Astro.props;
+const categoryIndex = loadCategoryIndex();
+const posts = await getPublishedPosts();
+const categoryCounts = countPostsByCategory(categoryIndex, posts.map((post) => post.data.category));
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <Sidebar index={categoryIndex} counts={categoryCounts} activeCategoryId={activeCategoryId} />
+    <MobileDrawer index={categoryIndex} counts={categoryCounts} activeCategoryId={activeCategoryId} />
+    <div class="page-shell">
+      <main><slot /></main>
+      <aside class="right-rail"><slot name="rightRail" /></aside>
+    </div>
+    <script>
+      const storageKey = "blog:expanded-categories";
+      const saved = new Set<string>(JSON.parse(localStorage.getItem(storageKey) ?? "[]"));
+      const toggles = document.querySelectorAll<HTMLButtonElement>("[data-category-toggle]");
+      const setExpanded = (button: HTMLButtonElement, expanded: boolean) => {
+        const target = document.getElementById(button.getAttribute("aria-controls") ?? "");
+        const name = button.dataset.categoryName ?? "category";
+        button.setAttribute("aria-expanded", String(expanded));
+        button.setAttribute("aria-label", `${expanded ? "Collapse" : "Expand"} ${name}`);
+        if (target) target.hidden = !expanded;
+      };
+      toggles.forEach((button) => {
+        const id = button.dataset.categoryToggle ?? "";
+        if (saved.size > 0) setExpanded(button, saved.has(id));
+        button.addEventListener("click", () => {
+          const expanded = button.getAttribute("aria-expanded") !== "true";
+          setExpanded(button, expanded);
+          if (expanded) saved.add(id); else saved.delete(id);
+          localStorage.setItem(storageKey, JSON.stringify([...saved]));
+        });
+      });
+
+      const drawer = document.querySelector<HTMLDialogElement>("[data-mobile-drawer]");
+      document.querySelector("[data-open-navigation]")?.addEventListener("click", () => drawer?.showModal());
+      document.querySelector("[data-close-navigation]")?.addEventListener("click", () => drawer?.close());
+      drawer?.addEventListener("click", (event) => { if (event.target === drawer) drawer.close(); });
+    </script>
+  </body>
+</html>
+
+<style>
+  .page-shell { margin-left: var(--sidebar-width); display: grid; grid-template-columns: minmax(0, var(--reading-width)) minmax(0, 13rem); justify-content: center; gap: 3rem; padding: 3rem 2rem; }
+  main { min-width: 0; }
+  .right-rail { min-width: 0; }
+  @media (max-width: 1120px) { .page-shell { grid-template-columns: minmax(0, var(--reading-width)); } .right-rail { display: none; } }
+  @media (max-width: 860px) { .page-shell { margin-left: 0; padding: 2rem 1.25rem; } }
+</style>

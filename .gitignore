@@ -16,6 +16,8 @@ package-lock.json
 .pnpm-store
 .astro
 dist
+test-results
+playwright-report
 
 # IDE configurations
 .idea

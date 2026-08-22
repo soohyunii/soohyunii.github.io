@@ -1,0 +1,49 @@
+---
+import type { CategoryIndex } from "../../lib/categories/schema";
+import CategoryTree from "./CategoryTree.astro";
+import SearchTrigger from "./SearchTrigger.astro";
+
+interface Props {
+  index: CategoryIndex;
+  counts: Map<string, number>;
+  activeCategoryId?: string;
+}
+
+const { index, counts, activeCategoryId } = Astro.props;
+---
+
+<header class="mobile-header">
+  <a href="/">Soohyun's Blog</a>
+  <button type="button" aria-label="Open navigation" data-open-navigation>☰</button>
+</header>
+
+<dialog aria-label="Site navigation" data-mobile-drawer>
+  <div class="drawer-head">
+    <strong>Navigate</strong>
+    <button type="button" aria-label="Close navigation" data-close-navigation>×</button>
+  </div>
+  <SearchTrigger />
+  <CategoryTree
+    index={index}
+    counts={counts}
+    activeId={activeCategoryId}
+    prefix="mobile"
+    label="Mobile categories"
+  />
+  <nav class="utility-nav" aria-label="Mobile utility navigation">
+    <a href="/about/">About</a><a href="/archive/">Archive</a><a href="/tags/">Tags</a>
+  </nav>
+</dialog>
+
+<style>
+  .mobile-header { display: none; position: sticky; top: 0; align-items: center; justify-content: space-between; padding: .8rem 1rem; border-bottom: 1px solid var(--color-border); background: var(--color-background); z-index: 20; }
+  .mobile-header a { font-weight: 700; text-decoration: none; }
+  button { border: 0; background: transparent; color: var(--color-text); font-size: 1.35rem; cursor: pointer; }
+  dialog { width: min(22rem, 88vw); height: 100%; max-height: none; margin: 0; padding: 1.2rem; border: 0; border-right: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); }
+  dialog::backdrop { background: rgb(0 0 0 / .45); }
+  .drawer-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+  dialog :global(.search-form) { margin-bottom: 1rem; }
+  .utility-nav { display: flex; gap: 1rem; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--color-border); }
+  .utility-nav a { color: var(--color-muted); font-size: .85rem; }
+  @media (max-width: 860px) { .mobile-header { display: flex; } }
+</style>

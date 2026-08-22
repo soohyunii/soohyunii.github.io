@@ -1,0 +1,33 @@
+---
+import type { CategoryIndex } from "../../lib/categories/schema";
+import CategoryTree from "./CategoryTree.astro";
+import SearchTrigger from "./SearchTrigger.astro";
+
+interface Props {
+  index: CategoryIndex;
+  counts: Map<string, number>;
+  activeCategoryId?: string;
+}
+
+const { index, counts, activeCategoryId } = Astro.props;
+---
+
+<aside class="sidebar" data-desktop-sidebar>
+  <a class="brand" href="/">Soohyun's Blog</a>
+  <SearchTrigger />
+  <CategoryTree index={index} counts={counts} activeId={activeCategoryId} prefix="desktop" />
+  <nav class="utility-nav" aria-label="Utility navigation">
+    <a href="/about/">About</a>
+    <a href="/archive/">Archive</a>
+    <a href="/tags/">Tags</a>
+  </nav>
+</aside>
+
+<style>
+  .sidebar { position: fixed; inset: 0 auto 0 0; width: var(--sidebar-width); overflow-y: auto; padding: 1.5rem 1.1rem; border-right: 1px solid var(--color-border); background: var(--color-surface); z-index: 10; }
+  .brand { display: block; margin-bottom: 1.25rem; font-size: 1.2rem; font-weight: 750; text-decoration: none; }
+  .sidebar :global(.search-form) { margin-bottom: 1.25rem; }
+  .utility-nav { display: grid; gap: .6rem; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--color-border); }
+  .utility-nav a { color: var(--color-muted); font-size: .85rem; text-decoration: none; }
+  @media (max-width: 860px) { .sidebar { display: none; } }
+</style>
