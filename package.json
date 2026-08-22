@@ -1,0 +1,35 @@
+{
+  "name": "soohyunii-blog",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build:astro": "astro build",
+    "build": "pnpm validate && astro build && pagefind --site dist",
+    "preview": "astro preview",
+    "check": "astro check && tsc --noEmit",
+    "validate": "tsx scripts/validate-content.ts",
+    "test": "vitest run",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "latest",
+    "@astrojs/sitemap": "latest",
+    "astro": "^7.2.0",
+    "fast-glob": "latest",
+    "gray-matter": "latest",
+    "yaml": "latest"
+  },
+  "devDependencies": {
+    "@astrojs/check": "latest",
+    "@playwright/test": "latest",
+    "@types/node": "latest",
+    "pagefind": "latest",
+    "tsx": "latest",
+    "typescript": "^6.0.0",
+    "vitest": "latest"
+  }
+}

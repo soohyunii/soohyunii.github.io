@@ -1,0 +1,21 @@
+:root {
+  color-scheme: light dark;
+  --color-background: light-dark(#faf9f6, #171717);
+  --color-surface: light-dark(#f0eee8, #202020);
+  --color-text: light-dark(#252525, #ededed);
+  --color-muted: light-dark(#686868, #aaa);
+  --color-border: light-dark(#dedbd3, #383838);
+  --color-accent: light-dark(#7a3f18, #f0ad7a);
+  --color-focus: light-dark(#1f6feb, #79c0ff);
+  --font-interface: system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-reading: Georgia, "Times New Roman", serif;
+  --font-code: "SFMono-Regular", Consolas, monospace;
+  --sidebar-width: 17rem;
+  --reading-width: 46rem;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+}
