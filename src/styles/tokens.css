@@ -1,7 +1,7 @@
 :root {
   color-scheme: light dark;
   --color-background: light-dark(#f7f4ed, #1b1a18);
-  --color-surface: light-dark(#e9e3d7, #252321);
+  --color-surface: light-dark(#e9dfd0, #292622);
   --color-text: light-dark(#26231f, #eeeae3);
   --color-muted: light-dark(#706a62, #aaa49b);
   --color-border: light-dark(#d7cdbc, #403d39);
