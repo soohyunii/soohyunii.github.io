@@ -1,0 +1,6 @@
+---
+interface Props { tags: string[]; limit?: number }
+const { tags, limit } = Astro.props; const visible = limit ? tags.slice(0, limit) : tags;
+---
+<ul class="tags" aria-label="Tags">{visible.map((tag) => <li><a href={`/tags/${encodeURIComponent(tag.toLowerCase())}/`}>#{tag}</a></li>)}</ul>
+<style>.tags{display:flex;flex-wrap:wrap;gap:.4rem;list-style:none;padding:0;margin:.65rem 0}.tags a{font-size:.78rem;color:var(--color-muted);text-decoration:none;border:1px solid var(--color-border);border-radius:999px;padding:.12rem .45rem}</style>

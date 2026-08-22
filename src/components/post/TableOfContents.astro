@@ -1,0 +1,6 @@
+---
+interface Heading { depth: number; slug: string; text: string }
+const { headings } = Astro.props as { headings: Heading[] };
+---
+{headings.length > 0 && <nav aria-label="Table of contents"><strong>On this page</strong><ul>{headings.filter(h=>h.depth<=3).map(h=><li class={`depth-${h.depth}`}><a href={`#${h.slug}`}>{h.text}</a></li>)}</ul></nav>}
+<style>nav{position:sticky;top:2rem;font-size:.82rem}ul{list-style:none;padding:0}.depth-3{padding-left:.8rem}a{color:var(--color-muted);text-decoration:none}</style>

@@ -1,0 +1,6 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro"; import PostCard from "../../components/post/PostCard.astro"; import {getPublishedPosts} from "../../lib/content/posts"; import {loadCategoryIndex} from "../../lib/categories/load";
+export async function getStaticPaths(){const posts=await getPublishedPosts();const tags=[...new Set(posts.flatMap(p=>p.data.tags.map(t=>t.toLowerCase())))];return tags.map(tag=>({params:{tag},props:{tag}}));}
+const posts=(await getPublishedPosts()).filter(p=>p.data.tags.some(t=>t.toLowerCase()===Astro.props.tag)); const index=loadCategoryIndex();
+---
+<BaseLayout title={`#${Astro.props.tag} | Soohyun's Blog`}><h1>#{Astro.props.tag}</h1>{posts.map(post=><PostCard post={post} index={index}/>)}</BaseLayout>

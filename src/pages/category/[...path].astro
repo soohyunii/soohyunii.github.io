@@ -1,0 +1,5 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro"; import PostCard from "../../components/post/PostCard.astro"; import Breadcrumbs from "../../components/navigation/Breadcrumbs.astro"; import {loadCategoryIndex} from "../../lib/categories/load"; import {getAncestors} from "../../lib/categories/queries"; import {getPostsForCategory} from "../../lib/content/posts";
+const index=loadCategoryIndex(); export function getStaticPaths(){const i=loadCategoryIndex();return [...i.byPath.values()].map(category=>({params:{path:category.path},props:{categoryId:category.id}}));} const category=index.byId.get(Astro.props.categoryId)!; const posts=await getPostsForCategory(index,category.id,true); const crumbs=[...getAncestors(index,category.id),category];
+---
+<BaseLayout title={`${category.name} | Soohyun's Blog`} description={category.description} activeCategoryId={category.id}><Breadcrumbs items={crumbs.map(node=>({name:node.name,href:`/category/${node.path}/`}))}/><h1>{category.name}</h1>{category.description&&<p>{category.description}</p>}{posts.length?posts.map(post=><PostCard post={post} index={index}/>):<p>아직 작성된 글이 없습니다.</p>}</BaseLayout>

@@ -1,0 +1,6 @@
+---
+interface Props { publishedAt: Date; categoryName?: string }
+const { publishedAt, categoryName } = Astro.props;
+---
+<p class="meta"><time datetime={publishedAt.toISOString()}>{publishedAt.toLocaleDateString("ko-KR")}</time>{categoryName && <> · {categoryName}</>}</p>
+<style>.meta{color:var(--color-muted);font-size:.86rem;margin:.35rem 0}</style>
