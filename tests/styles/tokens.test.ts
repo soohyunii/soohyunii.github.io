@@ -11,8 +11,8 @@ describe("calm research notes design tokens", () => {
     expect(tokens).toContain("#26231f");
   });
 
-  it("uses Pretendard for interface text and Noto Serif KR for reading", () => {
+  it("uses Pretendard for interface text and MaruBuri for reading", () => {
     expect(tokens).toContain('"Pretendard Variable"');
-    expect(tokens).toContain('"Noto Serif KR"');
+    expect(tokens).toContain('"MaruBuri"');
   });
 });
