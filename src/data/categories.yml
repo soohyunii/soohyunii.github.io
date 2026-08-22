@@ -1,0 +1,42 @@
+categories:
+  - id: ai
+    name: AI
+    slug: ai
+    children:
+      - id: masters-degree
+        name: Master's Degree
+        slug: masters-degree
+        children:
+          - id: data-science
+            name: Data Science
+            slug: data-science
+          - id: competitions
+            name: Competitions
+            slug: competitions
+          - id: capstone-design
+            name: Capstone Design
+            slug: capstone-design
+      - id: projects
+        name: Projects
+        slug: projects
+        children:
+          - id: dancebridge
+            name: DanceBridge
+            slug: dancebridge
+            description: Posts associated with the DanceBridge project
+      - id: self-study
+        name: Self-Study
+        slug: self-study
+        children:
+          - id: certifications
+            name: Certifications
+            slug: certifications
+          - id: courses-and-books
+            name: Courses & Books
+            slug: courses-and-books
+          - id: etc
+            name: etc
+            slug: etc
+      - id: resources
+        name: Resources
+        slug: resources
